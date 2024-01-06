@@ -33,6 +33,25 @@ npm install -D ts-node ts-node-dev typescript @types/express @types/dotenv @type
 npm install -D eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
 ```
 
+- Run backend app locally
+
+```
+cd backend
+npm install
+npm run start
+
+# watch mode
+npm run start:dev
+```
+
+- Run backend docker app locally
+
+```
+cd backend
+docker build -t backend_image .
+docker run -p 3000:3000 --name backend_app backend_image
+```
+
 ## Useful commands
 
 - `npm run build` compile typescript to js
