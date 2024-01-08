@@ -17,6 +17,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_REGION: ${{ secrets.AWS_REGION }}
       AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
+      PORT: ${{ secrets.PORT }}
       PROJECT_NAME: ${{ secrets.PROJECT_NAME }}
       TABLE_NAME: ${{ secrets.TABLE_NAME }}
       AWS_FARGATE_CONTAINER_CPU: ${{ secrets.AWS_FARGATE_CONTAINER_CPU }}
