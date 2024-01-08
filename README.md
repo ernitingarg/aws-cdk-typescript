@@ -52,6 +52,16 @@ docker build -t backend_image .
 docker run -p 3000:3000 --name backend_app backend_image
 ```
 
+- Deployment
+
+```
+npm run build
+cdk bootstrap
+cdk synth
+cdk deploy --require-approval never
+cdk destroy -f
+```
+
 ## Useful commands
 
 - `npm run build` compile typescript to js
