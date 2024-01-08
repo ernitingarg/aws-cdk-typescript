@@ -1,0 +1,67 @@
+name: CI pipeline
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_ACCOUNT: ${{ vars.AWS_ACCOUNT }}
+      PORT: ${{ vars.PORT }}
+      PROJECT_NAME: ${{ vars.PROJECT_NAME }}
+      TABLE_NAME: ${{ vars.TABLE_NAME }}
+      AWS_FARGATE_CONTAINER_CPU: ${{ vars.AWS_FARGATE_CONTAINER_CPU }}
+      AWS_FARGATE_CONTAINER_MEMORY: ${{ vars.AWS_FARGATE_CONTAINER_MEMORY }}
+
+    steps:
+      - name: Notify Trigger
+        run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event on branch ${{ github.ref }}."
+
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+
+      - name: Cache Dependencies
+        uses: actions/cache@v2
+        id: backend-npm-cache
+        with:
+          path: "node_modules"
+          key: client-npm-${{ hashFiles('package.json') }}
+
+      - name: Install Dependencies
+        run: npm install
+        if: steps.backend-npm-cache.outputs.cache-hit != 'true'
+
+      - name: Run Linter
+        run: npm run lint
+
+      - name: Run Typecheck
+        run: npm run typecheck
+
+      - name: Run Test
+        run: npm run test
+
+      - name: Configure AWS CLI
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Build AWS CDK stack
+        run: npm run build
+
+      - name: Diff AWS CDK stack
+        run: npx cdk diff --ci --require-approval never
+
+      - name: Display Job Status
+        run: echo "🍏 This job's status is ${{ job.status }}."
