@@ -62,6 +62,17 @@ cdk deploy --require-approval never
 cdk destroy -f
 ```
 
+## APIs
+- `/healthcheck`
+  
+  ![image](https://github.com/ernitingarg/aws-cdk-typescript/assets/20875452/36d3a5dc-1ab9-4ff4-9192-3a40b6e5d5b4)
+
+- `/generate`
+  
+  ![image](https://github.com/ernitingarg/aws-cdk-typescript/assets/20875452/82a2d73e-4276-45c7-9e5f-145f7a139f4a)
+
+  ![image](https://github.com/ernitingarg/aws-cdk-typescript/assets/20875452/045a75b6-9ca1-4c0a-a7c2-080f758a08c5)
+
 ## Useful commands
 
 - `npm run build` compile typescript to js
